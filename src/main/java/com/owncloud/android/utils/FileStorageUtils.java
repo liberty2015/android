@@ -177,6 +177,10 @@ public final class FileStorageUtils {
             file.setEncrypted(remote.getIsEncrypted());
         }
         file.setMountType(remote.getMountType());
+        file.setOwnerId(remote.getOwnerId());
+        file.setOwnerDisplayName(remote.getOwnerDisplayName());
+        file.setUnreadCommentsCount(remote.getUnreadCommentsCount());
+        
         return file;
     }
 
@@ -318,7 +322,7 @@ public final class FileStorageUtils {
         return ret;
     }
 
-    public static boolean moveFile(File sourceFile, File targetFile) throws IOException {
+    public static boolean moveFile(File sourceFile, File targetFile) {
         if (copyFile(sourceFile, targetFile)) {
             return sourceFile.delete();
         } else {

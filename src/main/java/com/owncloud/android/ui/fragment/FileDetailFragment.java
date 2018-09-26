@@ -272,14 +272,26 @@ public class FileDetailFragment extends FileFragment implements OnClickListener 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setSelectedTabIndicatorColor(ThemeUtils.primaryAccentColor(getContext()));
 
-        final FileDetailTabAdapter adapter = new FileDetailTabAdapter
-                (getFragmentManager(), getFile(), account);
+        final FileDetailTabAdapter adapter = new FileDetailTabAdapter(getFragmentManager(), getFile(), account);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (activeTab == 0) {
+                    getFileDetailActivitiesFragment().markCommentsAsRead();
+                }
+
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
+                if (tab.getPosition() == 0) {
+                    getFileDetailActivitiesFragment().markCommentsAsRead();
+                }
             }
 
             @Override
