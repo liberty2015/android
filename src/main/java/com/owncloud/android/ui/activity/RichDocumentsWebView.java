@@ -286,8 +286,14 @@ public class RichDocumentsWebView extends ExternalSiteWebView {
     @Override
     protected void onDestroy() {
         unbinder.unbind();
+        webview.destroy();
 
         super.onDestroy();
+    }
+
+    private void closeView() {
+        webview.destroy();
+        finish();
     }
 
     private void hideLoading() {
@@ -300,7 +306,7 @@ public class RichDocumentsWebView extends ExternalSiteWebView {
     private class RichDocumentsMobileInterface {
         @JavascriptInterface
         public void close() {
-            runOnUiThread(RichDocumentsWebView.this::finish);
+            runOnUiThread(RichDocumentsWebView.this::closeView);
         }
 
         @JavascriptInterface
@@ -315,7 +321,7 @@ public class RichDocumentsWebView extends ExternalSiteWebView {
 
         @JavascriptInterface
         public void documentLoaded() {
-            hideLoading();
+            runOnUiThread(RichDocumentsWebView.this::hideLoading);
         }
     }
 
