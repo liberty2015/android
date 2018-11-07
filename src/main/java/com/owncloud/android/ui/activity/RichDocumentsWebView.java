@@ -158,7 +158,7 @@ public class RichDocumentsWebView extends ExternalSiteWebView {
                 Bitmap thumbnail = ThumbnailsCacheManager.getBitmapFromDiskCache(
                     ThumbnailsCacheManager.PREFIX_THUMBNAIL + file.getRemoteId());
 
-                if (thumbnail != null && !file.needsUpdateThumbnail()) {
+                if (thumbnail != null && !file.isUpdateThumbnailNeeded()) {
                     if (MimeTypeUtil.isVideo(file)) {
                         Bitmap withOverlay = ThumbnailsCacheManager.addVideoOverlay(thumbnail);
                         thumbnailView.setImageBitmap(withOverlay);
